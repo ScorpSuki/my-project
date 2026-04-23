@@ -1,22 +1,15 @@
-import sys
-import os
+import pytest
+from app import add
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+def test_add_positive():
+    assert add(2, 3) == 5
 
-from app import main
+def test_add_negative():
+    assert add(-1, -1) == -2
 
-def test_main():
-    """Негізгі функцияның жұмыс істеуін тексеру"""
-    try:
-        main()
-        assert True
-    except Exception as e:
-        assert False, f"Қате орын алды: {e}"
+def test_add_float():
+    assert add(2.5, 2.5) == 5.0
 
-def test_import():
-    """Қосымшаның импортталуын тексеру"""
-    try:
-        import app
-        assert hasattr(app, 'main')
-    except ImportError:
-        assert False, "app модулі табылмады"
+def test_add_invalid():
+    with pytest.raises(ValueError):
+        add("2", 3)
